@@ -35,8 +35,6 @@ kubectl config get-contexts
 ```
 Cluster Auto scaler
 ===================
-Cluster -Autoscaling : 
-------------------------------
 kubectl config get-contexts
 kubectl get cm -n kube-system cluster-autoscaler-status -o yaml
 kubectl get events -A --field-selector source=cluster-autoscaler -w
@@ -45,7 +43,9 @@ kubectl create namespace inflatens
 kubectl apply -f inflate.yaml
 kubectl get all -n inflatens
 
-philip welz & pixel_robots 
 
 
+kubectl get nodes -o json | jq '.items[] | {name: .metadata.name, instance_type: .metadata.labels["node.kubernetes.io/instance-type"], nodepool_type: .metadata.labels["kubernetes.azure.com/nodepool-type"], topology_spread: .metadata.labels["topology.kubernetes.io/zone"], image_version: .metadata.labels["kubernetes.azure.com/node-image-version"],  }'
+
+credit: philip welz & pixel_robots 
 ```

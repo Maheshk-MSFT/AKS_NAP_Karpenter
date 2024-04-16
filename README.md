@@ -28,4 +28,6 @@ kubectl edit aksnodeclass default
 ```
 # to scale the pods so that we can see the karpenter events kicks in to add the nodes 
 kubectl scale deploy -n global-azure-ns --replicas=20 --all
+kubectl config get-contexts
+
 ```

@@ -31,3 +31,20 @@ kubectl scale deploy -n global-azure-ns --replicas=20 --all
 kubectl config get-contexts
 
 ```
+
+```
+Cluster Auto scaler
+===================
+Cluster -Autoscaling : 
+------------------------------
+kubectl config get-contexts
+kubectl get cm -n kube-system cluster-autoscaler-status -o yaml
+kubectl get events -A --field-selector source=cluster-autoscaler -w
+
+kubectl create namespace inflatens
+kubectl get all -n inflatens
+
+philip welz & pixel_robots 
+
+
+```

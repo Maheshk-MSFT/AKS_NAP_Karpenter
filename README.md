@@ -47,5 +47,7 @@ kubectl get all -n inflatens
 
 kubectl get nodes -o json | jq '.items[] | {name: .metadata.name, instance_type: .metadata.labels["node.kubernetes.io/instance-type"], nodepool_type: .metadata.labels["kubernetes.azure.com/nodepool-type"], topology_spread: .metadata.labels["topology.kubernetes.io/zone"], image_version: .metadata.labels["kubernetes.azure.com/node-image-version"],  }'
 
+kubectl scale deployment/inflate --replicas=10 -n inflatens
+
 credit: philip welz & pixel_robots 
 ```

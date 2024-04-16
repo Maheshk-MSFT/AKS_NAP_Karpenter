@@ -42,6 +42,7 @@ kubectl get cm -n kube-system cluster-autoscaler-status -o yaml
 kubectl get events -A --field-selector source=cluster-autoscaler -w
 
 kubectl create namespace inflatens
+kubectl apply -f inflate.yaml
 kubectl get all -n inflatens
 
 philip welz & pixel_robots 

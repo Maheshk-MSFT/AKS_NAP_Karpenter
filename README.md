@@ -1,60 +1,67 @@
-```
----
-az login --use-device-code 
-az extension add --name aks-preview
-az extension update --name aks-preview
-az feature register --namespace "Microsoft.ContainerService" --name "NodeAutoProvisioningPreview"
-az feature show --namespace "Microsoft.ContainerService" --name "NodeAutoProvisioningPreview"
-az provider register --namespace Microsoft.ContainerService
----
-az group create --name aks-nap-rg --location eastus
-az aks create --name ga-nap-aks --resource-group aks-nap-rg --node-provisioning-mode Auto --network-plugin azure --network-plugin-mode overlay --network-dataplane cilium --nodepool-taints CriticalAddonsOnly=true:NoSchedule
----
-```
+STEPS FOR ENABLING AKS NODE AUTO-PROVISIONING
+==============================================
 
 ```
-kubectl get nodes -o json | jq '.items[] | {name: .metadata.name, instance_type: .metadata.labels["node.kubernetes.io/instance-type"], nodepool_type: .metadata.labels["kubernetes.azure.com/nodepool-type"], karpeneter_nodepool: .metadata.labels ["karpenter.sh/nodedpool"], 
+  az login --use-device-code 
+  az extension add --name aks-preview
+  az extension update --name aks-preview
+  az feature register --namespace "Microsoft.ContainerService" --name "NodeAutoProvisioningPreview"
+  az feature show --namespace "Microsoft.ContainerService" --name "NodeAutoProvisioningPreview"
+  az provider register --namespace Microsoft.ContainerService
+  alias k=kubectl 
+---
+  az group create --name aks-nap-rg --location eastus
+  az aks create --name ga-nap-aks --resource-group aks-nap-rg --node-provisioning-mode Auto --network-plugin azure --network-plugin-mode overlay --network-dataplane cilium --nodepool-taints CriticalAddonsOnly=true:NoSchedule
+
+```
+
+---
+
+```
+k get nodes -o json | jq '.items[] | {name: .metadata.name, instance_type: .metadata.labels["node.kubernetes.io/instance-type"], nodepool_type: .metadata.labels["kubernetes.azure.com/nodepool-type"], karpeneter_nodepool: .metadata.labels ["karpenter.sh/nodedpool"], 
 topology_spread: .metadata.labels["topology.kubernetes.io/zone"], karpeneter_nodepool: .metadata.labels ["karpenter.sh/capacity-type"],image_version: .metadata.labels["kubernetes.azure.com/node-image-version"],  }'
 ```
 
 ```
-alias k=kubectl
 k get no -o wide
-kubectl get events -A --field-selector source=karpenter -w
-kubectl get NodePool default -o yaml
-kubectl edit aksnodeclass default
+
+k get NodePool default -o yaml
+k edit aksnodeclass default
 ```
 
 ```
-# to scale the pods so that we can see the karpenter events kicks in to add the nodes 
-kubectl scale deploy -n global-azure-ns --replicas=20 --all
+# scale/generate load test to see the karpenter events
+k scale deploy -n global-azure-ns --replicas=20 --all
+
+# keep this in separate window to see it in action
+k get events -A --field-selector source=karpenter -w
+
+#additional commands
 kubectl config get-contexts
-
 ```
 
 ```
 Cluster Auto scaler
 ===================
-kubectl config get-contexts
-kubectl get cm -n kube-system cluster-autoscaler-status -o yaml
-kubectl get events -A --field-selector source=cluster-autoscaler -w
+k config get-contexts
+k get cm -n kube-system cluster-autoscaler-status -o yaml
+k get events -A --field-selector source=cluster-autoscaler -w
 
-kubectl create namespace inflatens
-kubectl apply -f inflate.yaml
-kubectl get all -n inflatens
+k create namespace inflatens
+k apply -f inflate.yaml
+k get all -n inflatens
 
-kubectl get nodes -o json | jq '.items[] | {name: .metadata.name, instance_type: .metadata.labels["node.kubernetes.io/instance-type"], nodepool_type: .metadata.labels["kubernetes.azure.com/nodepool-type"], topology_spread: .metadata.labels["topology.kubernetes.io/zone"], image_version: .metadata.labels["kubernetes.azure.com/node-image-version"],  }'
+k get nodes -o json | jq '.items[] | {name: .metadata.name, instance_type: .metadata.labels["node.kubernetes.io/instance-type"], nodepool_type: .metadata.labels["kubernetes.azure.com/nodepool-type"], topology_spread: .metadata.labels["topology.kubernetes.io/zone"], image_version: .metadata.labels["kubernetes.azure.com/node-image-version"],  }'
 
-kubectl scale deployment/inflate --replicas=10 -n inflatens
+k scale deployment/inflate --replicas=10 -n inflatens
 watch kubectl get po -o wide -n inflatens
 kubectl scale deployment/inflate --replicas=0 -n inflatens
 
-///credit: philip welz & pixel_robots 
 ```
 
 ```
 manual scaling: 
-==============
+================
 az aks show --resource-group simple-aks-rg --name simpleaks-cluster1 --query agentPoolProfiles
 az aks scale --resource-group simple-aks-rg --name simpleaks --node-count 1 --nodepool-name <your node pool name>
 az aks nodepool scale --name apppoolone --cluster-name simpleaks --resource-group simple-aks-rg  --node-count 0

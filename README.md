@@ -13,23 +13,20 @@ STEPS FOR ENABLING AKS NODE AUTO-PROVISIONING
   az group create --name aks-nap-rg --location eastus
   az aks create --name ga-nap-aks --resource-group aks-nap-rg --node-provisioning-mode Auto --network-plugin azure --network-plugin-mode overlay --network-dataplane cilium --nodepool-taints CriticalAddonsOnly=true:NoSchedule
 
-```
+---
+
+k get nodes -o json | jq '.items[] | {name: .metadata.name, instance_type: .metadata.labels["node.kubernetes.io/instance-type"], nodepool_type: .metadata.labels["kubernetes.azure.com/nodepool-type"], karpeneter_nodepool: .metadata.labels ["karpenter.sh/nodedpool"], 
+topology_spread: .metadata.labels["topology.kubernetes.io/zone"], karpeneter_nodepool: .metadata.labels ["karpenter.sh/capacity-type"],image_version: .metadata.labels["kubernetes.azure.com/node-image-version"],  }'
 
 ---
 
-```
-k get nodes -o json | jq '.items[] | {name: .metadata.name, instance_type: .metadata.labels["node.kubernetes.io/instance-type"], nodepool_type: .metadata.labels["kubernetes.azure.com/nodepool-type"], karpeneter_nodepool: .metadata.labels ["karpenter.sh/nodedpool"], 
-topology_spread: .metadata.labels["topology.kubernetes.io/zone"], karpeneter_nodepool: .metadata.labels ["karpenter.sh/capacity-type"],image_version: .metadata.labels["kubernetes.azure.com/node-image-version"],  }'
-```
-
-```
 k get no -o wide
 
 k get NodePool default -o yaml
 k edit aksnodeclass default
-```
 
-```
+---
+
 # scale/generate load test to see the karpenter events
 k scale deploy -n global-azure-ns --replicas=20 --all
 
@@ -38,9 +35,9 @@ k get events -A --field-selector source=karpenter -w
 
 #additional commands
 kubectl config get-contexts
-```
 
-```
+---
+
 Cluster Auto scaler
 ===================
 k config get-contexts
@@ -57,11 +54,10 @@ k scale deployment/inflate --replicas=10 -n inflatens
 watch kubectl get po -o wide -n inflatens
 kubectl scale deployment/inflate --replicas=0 -n inflatens
 
-```
+---
 
-```
-manual scaling: 
-================
+manual scaling
+==============
 az aks show --resource-group simple-aks-rg --name simpleaks-cluster1 --query agentPoolProfiles
 az aks scale --resource-group simple-aks-rg --name simpleaks --node-count 1 --nodepool-name <your node pool name>
 az aks nodepool scale --name apppoolone --cluster-name simpleaks --resource-group simple-aks-rg  --node-count 0

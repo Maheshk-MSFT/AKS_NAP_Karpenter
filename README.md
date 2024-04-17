@@ -1,7 +1,7 @@
 
 
 ```
-# H2 STEPS FOR ENABLING AKS NODE AUTO-PROVISIONING
+# STEPS FOR ENABLING AKS NODE AUTO-PROVISIONING
 
   az login --use-device-code 
   az extension add --name aks-preview

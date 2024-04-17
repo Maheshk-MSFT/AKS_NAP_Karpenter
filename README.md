@@ -51,3 +51,20 @@ kubectl scale deployment/inflate --replicas=0 -n inflatens
 
 ///credit: philip welz & pixel_robots 
 ```
+
+```
+manual scaling: 
+==============
+az aks show --resource-group simple-aks-rg --name simpleaks-cluster1 --query agentPoolProfiles
+az aks scale --resource-group simple-aks-rg --name simpleaks --node-count 1 --nodepool-name <your node pool name>
+az aks nodepool scale --name apppoolone --cluster-name simpleaks --resource-group simple-aks-rg  --node-count 0
+
+auto-scaling
+=============
+az aks create --resource-group simple-aks-rg --name simpleaks --node-count 1 --vm-set-type VirtualMachineScaleSets --load-balancer-sku standard --enable-cluster-autoscaler --min-count 1 --max-count 3
+az aks update --resource-group simple-aks-rg --name simpleaks --enable-cluster-autoscaler --min-count 1 --max-count 3
+----
+az aks nodepool update --resource-group simple-aks-rg --cluster-name simpleaks --name nodepool1 --update-cluster-autoscaler --min-count 1 --max-count 5
+az aks nodepool update --resource-group simple-aks-rg --cluster-name simpleaks --name nodepool1 --disable-cluster-autoscaler
+
+az aks update --resource-group simple-aks-rg --name simpleaks --cluster-autoscaler-profile scan-interval=30s, scale-down-delay-after-add=0s,scale-down-delay-after-failure=30s,scale-down-unneeded-time=3m,scale-down-unready-time=3m,max-graceful-termination-sec=30,skip-nodes-with

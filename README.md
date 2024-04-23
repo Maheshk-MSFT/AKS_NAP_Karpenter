@@ -43,8 +43,8 @@ kubectl config get-contexts
 <img width="409" alt="nap4" src="https://github.com/Maheshk-MSFT/AKS_NAP_Karpenter/assets/61469290/7a8ce13a-ad5c-4ab8-8c00-866cbb341e30">
 
 <img width="948" alt="nap11" src="https://github.com/Maheshk-MSFT/AKS_NAP_Karpenter/assets/61469290/ac060d76-5ca4-4e38-b3b3-c4a843aa4e5f">
+
 ```
-====================================================================  
 # (2) STEPS FOR Cluster AutoScaler
 ====================================================================  
 k config get-contexts

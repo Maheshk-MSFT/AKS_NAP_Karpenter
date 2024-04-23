@@ -27,22 +27,32 @@ k get no -o wide
 k get NodePool default -o yaml
 k edit aksnodeclass default
 
+k apply -f workload.yaml (refer this repo)
 ---
 
-# scale/generate load test to see the karpenter events
+# you can scale/generate load test to see the karpenter events
 k scale deploy -n global-azure-ns --replicas=20 --all
 
 # keep this in separate window to see it in action
 k get events -A --field-selector source=karpenter -w
 
-#additional commands
-kubectl config get-contexts
+# we should see addtional nodes coming in
+k get no -o wide
+
+# run this command to see new nodes of diff size coming from D Series
+
+k get nodes -o json | jq '.items[] | {name: .metadata.name, instance_type: .metadata.labels["node.kubernetes.io/instance-type"], nodepool_type: .metadata.labels["kubernetes.azure.com/nodepool-type"], karpeneter_nodepool: .metadata.labels ["karpenter.sh/nodedpool"], 
+topology_spread: .metadata.labels["topology.kubernetes.io/zone"], karpeneter_nodepool: .metadata.labels ["karpenter.sh/capacity-type"],image_version: .metadata.labels["kubernetes.azure.com/node-image-version"],  }'
+
 ```
 <img width="956" alt="nap3" src="https://github.com/Maheshk-MSFT/AKS_NAP_Karpenter/assets/61469290/aa366992-b51f-443b-9b16-b7cfb75416a8">
 
 <img width="409" alt="nap4" src="https://github.com/Maheshk-MSFT/AKS_NAP_Karpenter/assets/61469290/7a8ce13a-ad5c-4ab8-8c00-866cbb341e30">
 
 <img width="948" alt="nap11" src="https://github.com/Maheshk-MSFT/AKS_NAP_Karpenter/assets/61469290/ac060d76-5ca4-4e38-b3b3-c4a843aa4e5f">
+
+#additional commands
+kubectl config get-contexts
 
 ```
 # (2) STEPS FOR Cluster AutoScaler

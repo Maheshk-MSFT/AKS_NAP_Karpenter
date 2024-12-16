@@ -79,12 +79,14 @@ az aks nodepool update --resource-group simple-aks-rg --cluster-name simpleaks -
 
 az aks update --resource-group simple-aks-rg --name simpleaks --cluster-autoscaler-profile scan-interval=30s, scale-down-delay-after-add=0s,scale-down-delay-after-failure=30s,scale-down-unneeded-time=3m,scale-down-unready-time=3m,max-graceful-termination-sec=30,skip-nodes-with
 ---
-------------------------------------------------------------------------------------------------------------------------------------------------
+
 ```
+------------------------------------------------------------------------------------------------------------------------------------------------
 # UPDATE:Dec/16/2024
 official docs - https://learn.microsoft.com/en-us/azure/aks/node-autoprovision?tabs=azure-cli
+<br>
 For new cluster - cilium n/w plane is pre-req
-
+<br>
 az aks create --name aksclustername--resource-group rgname--node-provisioning-mode Auto --network-plugin azure --network-plugin-mode overlay --network-dataplane cilium
 
 Update existing, <br>

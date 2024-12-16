@@ -94,18 +94,23 @@ For new cluster - cilium n/w plane is pre-req
 
 az aks create --name aksclustername--resource-group rgname--node-provisioning-mode Auto --network-plugin azure --network-plugin-mode overlay --network-dataplane cilium
 
-Update existing,
+Update existing, <br>
+```
 az aks update --name mikkykarp --resource-group aks-cilium-rg --node-provisioning-mode Auto --network-plugin azure --network-plugin-mode overlay --network-dataplane cilium
-
-verify enablement, 
+```
+verify enablement,
+<br>
+```
 kubectl api-resources | grep -e aksnodeclasses -e nodeclaims -e nodepools
-
 az aks update --name mikkykarp --resource-group aks-cilium-rg --disable-cluster-autoscaler
+```
 
 check various VM sku's along with existing nodepools getting added, 
+<br>
+```
 k get nodes -o json | jq '.items[] | {name: .metadata.name, instance_type: .metadata.labels["node.kubernetes.io/instance-type"], nodepool_type: .metadata.labels["kubernetes.azure.com/nodepool-type"], karpeneter_nodepool: .metadata.labels ["karpenter.sh/nodedpool"], 
 topology_spread: .metadata.labels["topology.kubernetes.io/zone"], karpeneter_nodepool: .metadata.labels ["karpenter.sh/capacity-type"],image_version: .metadata.labels["kubernetes.azure.com/node-image-version"],  }'
-
+```
 ```
 NOTE: You will not see the existing nodepool scaling.
 You will see new VM's getting added to the MG_resource group - standalone VM's with various SKu size.
@@ -113,3 +118,4 @@ You will see new VM's getting added to the MG_resource group - standalone VM's w
 
 <img width="943" alt="image" src="https://github.com/user-attachments/assets/24a869c3-cb7c-4c93-9dba-eba29338813e" />
  
+<img width="971" alt="image" src="https://github.com/user-attachments/assets/ceb301df-defb-46c0-8ad8-d1b8890bbeb3" />

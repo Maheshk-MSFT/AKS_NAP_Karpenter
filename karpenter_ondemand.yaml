@@ -30,8 +30,6 @@ spec:
           operator: In
           values:
             - D
-            - B
-            - F
         - key: karpenter.azure.com/sku-name
           operator: In
           values:
@@ -41,12 +39,4 @@ spec:
             - Standard_D3
             - Standard_D4_v4
             - Standard_Ds3
-            - Standard_B1s
-            - Standard_B2s
-            - Standard_B4ms
-            - Standard_B16ms
-            - Standard_F1
-            - Standard_F2
-            - Standard_F8
-            - Standard_F8s
   weight: 60

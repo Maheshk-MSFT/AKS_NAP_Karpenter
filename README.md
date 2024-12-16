@@ -79,14 +79,6 @@ az aks nodepool update --resource-group simple-aks-rg --cluster-name simpleaks -
 
 az aks update --resource-group simple-aks-rg --name simpleaks --cluster-autoscaler-profile scan-interval=30s, scale-down-delay-after-add=0s,scale-down-delay-after-failure=30s,scale-down-unneeded-time=3m,scale-down-unready-time=3m,max-graceful-termination-sec=30,skip-nodes-with
 ---
-====================================================================  
-# (3) STEPS FOR Manual Scaling
-====================================================================  
-az aks show --resource-group simple-aks-rg --name simpleaks-cluster1 --query agentPoolProfiles
-az aks scale --resource-group simple-aks-rg --name simpleaks --node-count 1 --nodepool-name <your node pool name>
-az aks nodepool scale --name apppoolone --cluster-name simpleaks --resource-group simple-aks-rg  --node-count 0
-
------------------------
 ```
 UPDATE:Dec/16/2024
 

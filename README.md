@@ -87,11 +87,11 @@ az aks scale --resource-group simple-aks-rg --name simpleaks --node-count 1 --no
 az aks nodepool scale --name apppoolone --cluster-name simpleaks --resource-group simple-aks-rg  --node-count 0
 
 -----------------------
+```
 UPDATE:Dec/16/2024
 
 For new cluster - cilium n/w plane is pre-req
-```
-```
+
 az aks create --name aksclustername--resource-group rgname--node-provisioning-mode Auto --network-plugin azure --network-plugin-mode overlay --network-dataplane cilium
 
 Update existing,
@@ -110,5 +110,6 @@ topology_spread: .metadata.labels["topology.kubernetes.io/zone"], karpeneter_nod
 NOTE: You will not see the existing nodepool scaling.
 You will see new VM's getting added to the MG_resource group - standalone VM's with various SKu size.
 ```
+
 <img width="943" alt="image" src="https://github.com/user-attachments/assets/24a869c3-cb7c-4c93-9dba-eba29338813e" />
  

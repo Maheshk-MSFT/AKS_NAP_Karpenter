@@ -108,6 +108,6 @@ topology_spread: .metadata.labels["topology.kubernetes.io/zone"], karpeneter_nod
 ```
 NOTE: You will not see the existing nodepool scaling.
 You will see new VM's getting added to the MG_resource group - standalone VM's with various SKu size.
-
+```
 <img width="943" alt="image" src="https://github.com/user-attachments/assets/24a869c3-cb7c-4c93-9dba-eba29338813e" />
  

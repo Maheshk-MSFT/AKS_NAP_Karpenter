@@ -1,4 +1,4 @@
-
+official docs - https://learn.microsoft.com/en-us/azure/aks/node-autoprovision?tabs=azure-cli
 
 ```
 ===================================================

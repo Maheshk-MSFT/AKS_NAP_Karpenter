@@ -119,3 +119,9 @@ You will see new VM's getting added to the MG_resource group - standalone VM's w
 <img width="943" alt="image" src="https://github.com/user-attachments/assets/24a869c3-cb7c-4c93-9dba-eba29338813e" />
  
 <img width="971" alt="image" src="https://github.com/user-attachments/assets/ceb301df-defb-46c0-8ad8-d1b8890bbeb3" />
+
+userful commmands
+```
+ az vm list-skus --resource-type virtualMachines --location centralindia --query '[].name' --output table
+```
+

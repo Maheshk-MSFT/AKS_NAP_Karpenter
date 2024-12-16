@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: etl
+  namespace: platform
+  labels:
+    app: etl
+spec:
+  replicas: 50
+  selector:
+    matchLabels:
+      app: etl
+  template:
+    metadata:
+      labels:
+        app: etl
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: nodetype
+                    operator: In
+                    values:
+                      - spotpl1
+                      - spotpl2
+                      - odpool 
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: karpenter.sh/capacity-type
+                    operator: In
+                    values:
+                      - spot
+            - weight: 50
+              preference:
+                matchExpressions:
+                  - key: karpenter.sh/capacity-type
+                    operator: In
+                    values:
+                      - on-demand
+      containers:
+        - name: nginx
+          image: nginx:latest
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+          ports:
+            - containerPort: 80
+      tolerations:
+        - key: "workload"
+          operator: "Equal"
+          value: "testspot1"
+          effect: "NoSchedule"
+        - key: "workload"
+          operator: "Equal"
+          value: "testspot2"
+          effect: "NoSchedule"
+        - key: "kubernetes.azure.com/scalesetpriority"
+          operator: "Equal"
+          value: "spot"
+          effect: "NoSchedule"
+        - key: "workload"
+          operator: "Equal"
+          value: "testod"
+          effect: "NoSchedule"

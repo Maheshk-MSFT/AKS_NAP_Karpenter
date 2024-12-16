@@ -80,7 +80,7 @@ az aks nodepool update --resource-group simple-aks-rg --cluster-name simpleaks -
 az aks update --resource-group simple-aks-rg --name simpleaks --cluster-autoscaler-profile scan-interval=30s, scale-down-delay-after-add=0s,scale-down-delay-after-failure=30s,scale-down-unneeded-time=3m,scale-down-unready-time=3m,max-graceful-termination-sec=30,skip-nodes-with
 ---
 ```
-UPDATE:Dec/16/2024
+# UPDATE:Dec/16/2024
 
 For new cluster - cilium n/w plane is pre-req
 

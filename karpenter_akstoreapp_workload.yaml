@@ -5,7 +5,7 @@ metadata:
   namespace: karpdemo
 spec:
   serviceName: rabbitmq
-  replicas: 10
+  replicas: 20
   selector:
     matchLabels:
       app: rabbitmq
@@ -85,7 +85,7 @@ metadata:
   name: order-service
   namespace: karpdemo
 spec:
-  replicas: 10
+  replicas: 20
   selector:
     matchLabels:
       app: order-service
@@ -179,7 +179,7 @@ metadata:
   name: product-service
   namespace: karpdemo
 spec:
-  replicas: 10
+  replicas: 20
   selector:
     matchLabels:
       app: product-service
@@ -245,7 +245,7 @@ metadata:
   name: store-front
   namespace: karpdemo
 spec:
-  replicas: 10
+  replicas: 20
   selector:
     matchLabels:
       app: store-front

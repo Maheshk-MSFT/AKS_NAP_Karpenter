@@ -118,7 +118,13 @@ You will see new VM's getting added to the MG_resource group - standalone VM's w
 userful commmands
 ```
  az vm list-skus --resource-type virtualMachines --location centralindia --query '[].name' --output table
+kubectl get events -A --field-selector source=karpenter --sort-by='.lastTimestamp'
 ```
 # Run 100% on Spot - NAP/NodeAutoProvisioning/Karpenter - Refer repo yaml files (3 files named - karp_*.yaml)
 <br>
 <img width="961" alt="image" src="https://github.com/user-attachments/assets/c953af44-aa96-431b-ada5-3dfe5516aeb2" />
+
+<br>
+Note: If you have purchased RI's, then use that RI specific SKU name within the on-demand yaml
+<br>
+https://learn.microsoft.com/en-us/azure/aks/node-autoprovision?tabs=azure-cli#sku-selectors-with-well-known-labels

@@ -91,6 +91,7 @@ UPDATE:Dec/16/2024
 
 For new cluster - cilium n/w plane is pre-req
 ```
+```
 az aks create --name aksclustername--resource-group rgname--node-provisioning-mode Auto --network-plugin azure --network-plugin-mode overlay --network-dataplane cilium
 
 Update existing,

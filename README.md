@@ -119,6 +119,6 @@ userful commmands
 ```
  az vm list-skus --resource-type virtualMachines --location centralindia --query '[].name' --output table
 ```
-# Run 100% on Spot - Karpenter - Refer repo yaml files (3 files named - karp_*.yaml)
+# Run 100% on Spot - NAP/NodeAutoProvisioning/Karpenter - Refer repo yaml files (3 files named - karp_*.yaml)
 <br>
 <img width="961" alt="image" src="https://github.com/user-attachments/assets/c953af44-aa96-431b-ada5-3dfe5516aeb2" />
